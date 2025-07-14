@@ -29,7 +29,7 @@ func Form(suggestions []string) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<form><label for=\"carInput\">ADD CAR:</label> <input name=\"carInput\" list=\"carSuggestions\" hx-get=\"/search\" hx-trigger=\"keyup[checkUserKeydown.call(this, event)] changed delay:200ms\" hx-target=\"#carSuggestions\" placeholder=\"Search car...\"> <datalist id=\"carSuggestions\" class=\"border border-gray-200 rounded-lg\"></datalist><script>\n    function checkUserKeydown(evt) {return evt instanceof KeyboardEvent;}\n  </script><button type=\"submit\">Add Car</button></form>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<!--Car input--><form id=\"addCarForm\"><label for=\"carInput\">ADD CAR:</label> <input name=\"carInput\" id=\"carInput\" list=\"carSuggestions\" hx-get=\"/search\" hx-trigger=\"keyup[checkUserKeydown.call(this, event)] changed delay:200ms\" hx-target=\"#carSuggestions\" placeholder=\"Search car...\"> <datalist id=\"carSuggestions\" class=\"border border-gray-200 rounded-lg\"></datalist> <button type=\"button\" hx-post=\"/addCar\" hx-include=\"#carInput\" hx-target=\"#carList\" hx-swap=\"beforeend\">Add Car</button></form><!--Accumulate Cars--><ul id=\"carList\"></ul><!--Send cars--><button id=\"sendBtn\" hx-post=\"/calculate\" hx-include=\"#carList input\" class=\"mt-4\">Calculate</button><script>\n  function checkUserKeydown(evt) {return evt instanceof KeyboardEvent;}\n</script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -66,7 +66,7 @@ func CarOptions(cars []string) templ.Component {
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(car)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/form.templ`, Line: 24, Col: 21}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/form.templ`, Line: 35, Col: 21}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
@@ -79,7 +79,7 @@ func CarOptions(cars []string) templ.Component {
 			var templ_7745c5c3_Var4 string
 			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(car)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/form.templ`, Line: 24, Col: 29}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/form.templ`, Line: 35, Col: 29}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
@@ -89,6 +89,61 @@ func CarOptions(cars []string) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
+		}
+		return nil
+	})
+}
+
+func CarRow(car string) templ.Component {
+	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
+		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
+			return templ_7745c5c3_CtxErr
+		}
+		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
+		if !templ_7745c5c3_IsBuffer {
+			defer func() {
+				templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
+				if templ_7745c5c3_Err == nil {
+					templ_7745c5c3_Err = templ_7745c5c3_BufErr
+				}
+			}()
+		}
+		ctx = templ.InitializeContext(ctx)
+		templ_7745c5c3_Var5 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var5 == nil {
+			templ_7745c5c3_Var5 = templ.NopComponent
+		}
+		ctx = templ.ClearChildren(ctx)
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<li><input type=\"hidden\" name=\"cars\" value=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var6 string
+		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(car)
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/form.templ`, Line: 41, Col: 46}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "\"> ")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var7 string
+		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(car)
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/form.templ`, Line: 42, Col: 7}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, " <button type=\"button\" hx-delete=\"/removeCar\" hx-target=\"closest li\" hx-swap=\"outerHTML\">❌</button></li>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
 		}
 		return nil
 	})
