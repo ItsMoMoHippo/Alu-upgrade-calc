@@ -1,0 +1,26 @@
+package views
+
+templ Form(suggestions []string) {
+	<form>
+		<label for="carInput">ADD CAR:</label>
+		<input
+			name="carInput"
+			list="carSuggestions"
+			hx-get="/search"
+			hx-trigger="keyup[checkUserKeydown.call(this, event)] changed delay:200ms"
+			hx-target="#carSuggestions"
+			placeholder="Search car..."
+		/>
+		<datalist id="carSuggestions" class="border border-gray-200 rounded-lg"></datalist>
+		<script>
+    function checkUserKeydown(evt) {return evt instanceof KeyboardEvent;}
+  </script>
+		<button type="submit">Add Car</button>
+	</form>
+}
+
+templ CarOptions(cars []string) {
+	for _, car := range cars {
+		<option value={ car }>{ car }</option>
+	}
+}

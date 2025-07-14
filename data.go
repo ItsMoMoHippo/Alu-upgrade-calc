@@ -16,5 +16,4 @@ type Car struct {
 	CurStars int
 	MaxStars int
 	Image    string
-	// UpgradePath UpgradePath
 }
