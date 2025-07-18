@@ -4,6 +4,7 @@ templ Form(suggestions []string) {
 	<!--Car input-->
 	<form id="addCarForm">
 		<label for="carInput">ADD CAR:</label>
+		<!--input-->
 		<input
 			name="carInput"
 			id="carInput"
@@ -13,18 +14,12 @@ templ Form(suggestions []string) {
 			hx-target="#carSuggestions"
 			placeholder="Search car..."
 		/>
+		<!--suggestions-->
 		<datalist id="carSuggestions" class="border border-gray-200 rounded-lg"></datalist>
 		<button type="button" hx-post="/addCar" hx-include="#carInput" hx-target="#carList" hx-swap="beforeend">
-			Add
-			Car
+			Add Car
 		</button>
 	</form>
-	<!--Accumulate Cars-->
-	<ul id="carList"></ul>
-	<!--Send cars-->
-	<button id="sendBtn" hx-post="/calculate" hx-include="#carList input" hx-swap="none" class="mt-4">
-		Calculate
-	</button>
 	<script>
   function checkUserKeydown(evt) {return evt instanceof KeyboardEvent;}
 </script>
@@ -34,14 +29,4 @@ templ CarOptions(cars []string) {
 	for _, car := range cars {
 		<option value={ car }>{ car }</option>
 	}
-}
-
-templ CarRow(car string) {
-	<li>
-		<input type="hidden" name="cars" value={ car }/>
-		{ car }
-		<button type="button" hx-delete="/removeCar" hx-target="closest li" hx-swap="outerHTML">
-			❌
-		</button>
-	</li>
 }

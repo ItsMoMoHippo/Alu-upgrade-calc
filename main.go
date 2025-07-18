@@ -9,13 +9,14 @@ import (
 
 func main() {
 	port := ":8000"
+	router := http.DefaultServeMux
 
-	http.HandleFunc("/", handlers.HandleHome)
-	http.HandleFunc("/search", handlers.CarSearch)
-	http.HandleFunc("/addCar", handlers.AddCar)
-	http.HandleFunc("/removeCar", handlers.RemoveCar)
-	http.HandleFunc("/calculate", handlers.PrintCars)
+	router.HandleFunc("/", handlers.HandleHome)
+	router.HandleFunc("/search", handlers.CarSearch)
+	router.HandleFunc("/addCar", handlers.AddCar)
+	router.HandleFunc("/removeCar", handlers.RemoveCar)
+	router.HandleFunc("/calculate", handlers.PrintCars)
 
 	fmt.Println("Listening on ", port)
-	log.Fatal(http.ListenAndServe(port, nil))
+	log.Fatal(http.ListenAndServe(port, router))
 }

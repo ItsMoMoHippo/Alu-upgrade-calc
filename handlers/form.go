@@ -2,8 +2,11 @@ package handlers
 
 import (
 	"aluUpgradeCalc/data"
+	"aluUpgradeCalc/database"
 	"aluUpgradeCalc/views"
+	"database/sql"
 	"fmt"
+	"log"
 	"net/http"
 	"strings"
 
@@ -12,11 +15,26 @@ import (
 
 func CarSearch(w http.ResponseWriter, r *http.Request) {
 	frag := strings.ToLower(r.URL.Query().Get("carInput"))
-	var matches []string
-	for _, car := range data.CarsList {
-		if strings.Contains(strings.ToLower(car), frag) {
-			matches = append(matches, car)
+
+	query := "SELECT name FROM cars WHERE LOWER(name) LIKE ?"
+	rows, err := database.DB.Query(query, "%"+frag+"%")
+	if err != nil {
+		http.Error(w, "Database Error", http.StatusInternalServerError)
+		return
+	}
+	defer func() {
+		if err := rows.Close(); err != nil {
+			log.Printf("Error closing rows:%v", err)
 		}
+	}()
+
+	var matches []string
+	for rows.Next() {
+		var car string
+		if err := rows.Scan(&car); err != nil {
+			continue
+		}
+		matches = append(matches, car)
 	}
 	templ.Handler(views.CarOptions(matches)).ServeHTTP(w, r)
 }
@@ -34,7 +52,20 @@ func AddCar(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	_ = views.CarRow(car).Render(r.Context(), w)
+	var star int
+	query := "SELECT star FROM cars WHERE LOWER(name) = LOWER(?)"
+	row := database.DB.QueryRow(query, car)
+	err := row.Scan(&star)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			http.Error(w, "Database error: car not found", http.StatusInternalServerError)
+			return
+		}
+		http.Error(w, "Database Error, star not found", http.StatusInternalServerError)
+		return
+	}
+	maxUpgrades, _ := data.MaxUpgradeStage(star)
+	_ = views.CarConfComponent(car, maxUpgrades).Render(r.Context(), w)
 }
 
 func RemoveCar(w http.ResponseWriter, r *http.Request) {
