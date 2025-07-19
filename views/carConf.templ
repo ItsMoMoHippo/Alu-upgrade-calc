@@ -1,22 +1,45 @@
 package views
 
+import "strconv"
+
 templ CarList() {
-	<!--Cars config-->
-	<div>
-		<ul id="carList" hx-swap="beforeend" hx-target="this"></ul>
-	</div>
-	<!--Send cars-->
-	<button id="sendBtn" hx-post="/calculate" hx-include="#carList input" hx-swap="none" class="mt-4">
-		Calculate
-	</button>
+<!--Cars config-->
+<div>
+  <ul id="carList"></ul>
+</div>
+<!--Send cars-->
+<button id="sendBtn" hx-post="/calculate" hx-include="#carList" hx-headers='{"Content-Type":"application/json"}'
+  hx-swap="none" class="mt-4">
+  Calculate
+</button>
 }
 
 templ CarConfComponent(car string, maxUpgrade int) {
-	<li>
-		<input type="hidden" name="cars" value={ car }/>
-		{ car }
-		<button type="button" hx-delete="/removeCar" hx-target="closest li" hx-swap="outerHTML">
-			❌
-		</button>
-	</li>
+<li>
+  <form>
+    <input type="hidden" name="name" value={ car } />
+    <h4>{ car }</h4>
+    <button type="button" hx-delete="/removeCar" hx-target="closest li" hx-swap="outerHTML">
+      ❌
+    </button>
+    <!--make dropdown where options is 0 to maxUpgrade-->
+    <div>
+      <label>speed:</label>
+      @upgradeSelect("speed", maxUpgrade)
+      <label>accel:</label>
+      @upgradeSelect("accel", maxUpgrade)
+      <label>handling:</label>
+      @upgradeSelect("handling", maxUpgrade)
+      <label>nitro:</label>
+      @upgradeSelect("nitro", maxUpgrade)
+    </div>
+  </form>
+</li>
+}
+
+templ upgradeSelect(name string, maxUpgrade int){
+<select name={ name }>
+  for i := 0; i <= maxUpgrade; i++ { <option value={ strconv.Itoa(i) }>{ strconv.Itoa(i) }</option>
+    }
+</select>
 }

@@ -19,6 +19,14 @@ type CarConfig struct {
 	EpicImpParts  int    `json:"eip"`
 }
 
+type CarConfSimple struct {
+	Name     string `json:"name"`
+	Speed    int    `json:"speed"`
+	Accel    int    `json:"accel"`
+	Handling int    `json:"handling"`
+	Nitro    int    `json:"nitro"`
+}
+
 func MaxUpgradeStage(star int) (int, error) {
 	switch star {
 	case 3:

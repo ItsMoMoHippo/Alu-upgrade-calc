@@ -5,6 +5,7 @@ import (
 	"aluUpgradeCalc/database"
 	"aluUpgradeCalc/views"
 	"database/sql"
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -70,4 +71,13 @@ func AddCar(w http.ResponseWriter, r *http.Request) {
 
 func RemoveCar(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
+}
+
+func Calculate(w http.ResponseWriter, r *http.Request) {
+	var cars []data.CarConfSimple
+	if err := json.NewDecoder(r.Body).Decode(&cars); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	// caluclate
 }
