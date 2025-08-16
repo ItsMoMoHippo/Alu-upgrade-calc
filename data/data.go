@@ -4,7 +4,6 @@ Package data: Contains all data and structs needed and database connectivity
 package data
 
 import (
-	_ "embed"
 	"errors"
 )
 

@@ -12,6 +12,7 @@ templ Form(suggestions []string) {
 			hx-get="/search"
 			hx-trigger="keyup[checkUserKeydown.call(this, event)] changed delay:200ms"
 			hx-target="#carSuggestions"
+			hx-on="htmx:afterRequest: document.getElementById('carInput').value = ''"
 			placeholder="Search car..."
 		/>
 		<!--suggestions-->
@@ -22,6 +23,13 @@ templ Form(suggestions []string) {
 	</form>
 	<script>
   function checkUserKeydown(evt) {return evt instanceof KeyboardEvent;}
+
+  document.addEventListener('htmx:afterRequest', function (evt) {
+    if (evt.detail.elt.hasAttribute('hx-post') &&
+      evt.detail.elt.getAttribute('hx-post') === '/addCar') {
+      document.getElementById('carInput').value = '';
+    }
+  });
 </script>
 }
 

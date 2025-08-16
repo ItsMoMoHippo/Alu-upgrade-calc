@@ -1,45 +1,82 @@
 package views
 
-import "strconv"
+import "aluUpgradeCalc/data"
+import "aluUpgradeCalc/utils"
 
 templ CarList() {
-<!--Cars config-->
-<div>
-  <ul id="carList"></ul>
-</div>
-<!--Send cars-->
-<button id="sendBtn" hx-post="/calculate" hx-include="#carList" hx-headers='{"Content-Type":"application/json"}'
-  hx-swap="none" class="mt-4">
-  Calculate
-</button>
+	<!--Cars config-->
+	<div>
+		<ul id="carList"></ul>
+	</div>
+	<!--Send cars-->
+	<button
+		id="sendBtn"
+		hx-post="/calculate"
+		hx-include="#carList"
+		hx-headers='{"Content-Type":"application/json"}'
+		hx-swap="none"
+		class="mt-4"
+	>
+		Calculate
+	</button>
 }
 
 templ CarConfComponent(car string, maxUpgrade int) {
-<li>
-  <form>
-    <input type="hidden" name="name" value={ car } />
-    <h4>{ car }</h4>
-    <button type="button" hx-delete="/removeCar" hx-target="closest li" hx-swap="outerHTML">
-      ❌
-    </button>
-    <!--make dropdown where options is 0 to maxUpgrade-->
-    <div>
-      <label>speed:</label>
-      @upgradeSelect("speed", maxUpgrade)
-      <label>accel:</label>
-      @upgradeSelect("accel", maxUpgrade)
-      <label>handling:</label>
-      @upgradeSelect("handling", maxUpgrade)
-      <label>nitro:</label>
-      @upgradeSelect("nitro", maxUpgrade)
-    </div>
-  </form>
-</li>
+	<li class="border p-4 mb-2 rounded">
+		<form>
+			<input type="hidden" name="name" value={ car }/>
+			<h4 class="font-bold">{ car }</h4>
+			<button
+				type="button"
+				hx-delete="/removeCar"
+				hx-target="closest li"
+				hx-swap="outerHTML"
+				class="text-red-600 hover:text-red-800"
+			>
+				❌
+			</button>
+			<!--make dropdown where options is 0 to maxUpgrade-->
+			<div class="grid grid-cols-2 gap-3 mb-3">
+				<label class="block text-sm">speed:</label>
+				@UpgradeSelect(car, maxUpgrade)
+				<label class="block text-sm">accel:</label>
+				@UpgradeSelect(car, maxUpgrade)
+				<label class="block text-sm">handling:</label>
+				@UpgradeSelect(car, maxUpgrade)
+				<label class="block text-sm">nitro:</label>
+				@UpgradeSelect(car, maxUpgrade)
+			</div>
+			<button
+				type="submit"
+				hx-post="/saveCar"
+				hx-target="carList"
+				hx-swap="beforeend"
+				class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+			>
+				Add Car
+			</button>
+		</form>
+	</li>
 }
 
-templ upgradeSelect(name string, maxUpgrade int){
-<select name={ name }>
-  for i := 0; i <= maxUpgrade; i++ { <option value={ strconv.Itoa(i) }>{ strconv.Itoa(i) }</option>
-    }
-</select>
+templ CarSavedComp(car data.CarConfSimple) {
+	<li>
+		<div>
+			<h5>{ car.Name } </h5>
+		</div>
+		<div>
+			<p>{ car.Speed }</p>
+			<p>{ car.Accel }</p>
+			<p>{ car.Handling }</p>
+			<p>{ car.Nitro }</p>
+		</div>
+	</li>
+}
+
+templ UpgradeSelect(name string, maxUpgrade int) {
+	<select name={ name }>
+		for _, i:= range utils.IntRange(maxUpgrade) {
+			<option value={ i }>{ i }</option>
+		}
+	</select>
 }

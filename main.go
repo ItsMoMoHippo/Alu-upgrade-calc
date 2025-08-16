@@ -2,7 +2,6 @@ package main
 
 import (
 	"aluUpgradeCalc/handlers"
-	"fmt"
 	"log"
 	"net/http"
 )
@@ -17,6 +16,6 @@ func main() {
 	router.HandleFunc("/removeCar", handlers.RemoveCar)
 	router.HandleFunc("/calculate", handlers.PrintCars)
 
-	fmt.Println("Listening on ", port)
+	log.Print("Listening on ", port)
 	log.Fatal(http.ListenAndServe(port, router))
 }

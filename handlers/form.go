@@ -66,7 +66,13 @@ func AddCar(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	maxUpgrades, _ := data.MaxUpgradeStage(star)
+	log.Println("User added: ", car)
 	_ = views.CarConfComponent(car, maxUpgrades).Render(r.Context(), w)
+}
+
+func SaveCar(w http.ResponseWriter, r *http.Request) {
+	var car data.CarConfSimple
+	_ = views.CarSavedComp(car).Render(r.Context(), w)
 }
 
 func RemoveCar(w http.ResponseWriter, r *http.Request) {
