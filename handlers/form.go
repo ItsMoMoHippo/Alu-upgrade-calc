@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 	"strings"
 
 	"github.com/a-h/templ"
@@ -71,7 +72,34 @@ func AddCar(w http.ResponseWriter, r *http.Request) {
 }
 
 func SaveCar(w http.ResponseWriter, r *http.Request) {
-	var car data.CarConfSimple
+	// TODO: parse data
+	if err := r.ParseForm(); err != nil {
+		http.Error(w, "bad form", http.StatusBadRequest)
+		return
+	}
+
+	car := data.CarConfSimple{
+		Name: r.Form.Get("name"),
+	}
+
+	var err error
+	if car.Speed, err = parseIntField(r, "speed"); err != nil {
+		http.Error(w, "invalid speed stat", http.StatusBadRequest)
+		return
+	}
+	if car.Accel, err = parseIntField(r, "accel"); err != nil {
+		http.Error(w, "invalid speed stat", http.StatusBadRequest)
+		return
+	}
+	if car.Handling, err = parseIntField(r, "handling"); err != nil {
+		http.Error(w, "invalid speed stat", http.StatusBadRequest)
+		return
+	}
+	if car.Nitro, err = parseIntField(r, "nitro"); err != nil {
+		http.Error(w, "invalid speed stat", http.StatusBadRequest)
+		return
+	}
+
 	_ = views.CarSavedComp(car).Render(r.Context(), w)
 }
 
@@ -86,4 +114,13 @@ func Calculate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// caluclate
+}
+
+func parseIntField(r *http.Request, field string) (int, error) {
+	val := r.Form.Get(field)
+	if val == "" {
+		return 0, nil
+	}
+
+	return strconv.Atoi(val)
 }

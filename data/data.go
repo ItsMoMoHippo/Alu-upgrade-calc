@@ -19,11 +19,11 @@ type CarConfig struct {
 }
 
 type CarConfSimple struct {
-	Name     string `json:"name"`
-	Speed    int    `json:"speed"`
-	Accel    int    `json:"accel"`
-	Handling int    `json:"handling"`
-	Nitro    int    `json:"nitro"`
+	Name     string `form:"name"`
+	Speed    int    `form:"speed"`
+	Accel    int    `form:"accel"`
+	Handling int    `form:"handling"`
+	Nitro    int    `form:"nitro"`
 }
 
 func MaxUpgradeStage(star int) (int, error) {

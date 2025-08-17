@@ -13,6 +13,7 @@ func main() {
 	router.HandleFunc("/", handlers.HandleHome)
 	router.HandleFunc("/search", handlers.CarSearch)
 	router.HandleFunc("/addCar", handlers.AddCar)
+	router.HandleFunc("/saveCar", handlers.SaveCar)
 	router.HandleFunc("/removeCar", handlers.RemoveCar)
 	router.HandleFunc("/calculate", handlers.PrintCars)
 
