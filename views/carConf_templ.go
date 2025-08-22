@@ -32,7 +32,7 @@ func CarList() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<!--Cars config--><div><ul id=\"carList\"></ul></div><!--Send cars--><button id=\"sendBtn\" hx-post=\"/calculate\" hx-include=\"#carList\" hx-headers='{\"Content-Type\":\"application/json\"}' hx-swap=\"none\" class=\"mt-4\">Calculate</button>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<!--Cars config--><div id=\"carConfigure\"></div><!--Configured cars--><div><ul id=\"carList\"></ul></div><!--Send cars--><button id=\"sendBtn\" hx-post=\"/calculate\" hx-include=\"#carList\" hx-headers='{\"Content-Type\":\"application/json\"}' hx-swap=\"none\" class=\"mt-4\">Calculate</button>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -61,14 +61,14 @@ func CarConfComponent(car string, maxUpgrade int) templ.Component {
 			templ_7745c5c3_Var2 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<li class=\"border p-4 mb-2 rounded\"><form><input type=\"hidden\" name=\"name\" value=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<form><input type=\"hidden\" name=\"name\" value=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(car)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/carConf.templ`, Line: 27, Col: 47}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/carConf.templ`, Line: 28, Col: 46}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
@@ -81,13 +81,13 @@ func CarConfComponent(car string, maxUpgrade int) templ.Component {
 		var templ_7745c5c3_Var4 string
 		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(car)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/carConf.templ`, Line: 28, Col: 30}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/carConf.templ`, Line: 29, Col: 29}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</h4><button type=\"button\" hx-delete=\"/removeCar\" hx-target=\"closest li\" hx-swap=\"outerHTML\" class=\"text-red-600 hover:text-red-800\">❌</button><!--make dropdown where options is 0 to maxUpgrade--><div class=\"grid grid-cols-2 gap-3 mb-3\"><label class=\"block text-sm\">speed:</label>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</h4><button type=\"button\" hx-delete=\"/removeCar\" hx-target=\"closest form\" hx-swap=\"outerHTML\" class=\"text-red-600 hover:text-red-800\">❌</button><!--make dropdown where options is 0 to maxUpgrade--><div class=\"grid grid-cols-2 gap-3 mb-3\"><label class=\"block text-sm\">speed:</label>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -119,7 +119,7 @@ func CarConfComponent(car string, maxUpgrade int) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "</div><button type=\"submit\" hx-post=\"/saveCar\" hx-target=\"#carList\" hx-swap=\"beforeend\" class=\"bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600\">Save Car</button></form></li>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "</div><button type=\"submit\" hx-post=\"/saveCar\" hx-target=\"#carList\" hx-swap=\"beforeend\" class=\"bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600\">Save Car</button></form>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

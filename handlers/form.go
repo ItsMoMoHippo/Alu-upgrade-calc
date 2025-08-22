@@ -72,7 +72,6 @@ func AddCar(w http.ResponseWriter, r *http.Request) {
 }
 
 func SaveCar(w http.ResponseWriter, r *http.Request) {
-	// TODO: parse data
 	if err := r.ParseForm(); err != nil {
 		http.Error(w, "bad form", http.StatusBadRequest)
 		return
@@ -100,7 +99,10 @@ func SaveCar(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	log.Println("User saved: ", car.Name)
+
 	_ = views.CarSavedComp(car).Render(r.Context(), w)
+	_, _ = w.Write([]byte(`<div id="carConfigure" hx-swap-oob="innerHTML"></div>`))
 }
 
 func RemoveCar(w http.ResponseWriter, r *http.Request) {

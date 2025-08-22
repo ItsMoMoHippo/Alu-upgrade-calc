@@ -5,6 +5,8 @@ import "aluUpgradeCalc/utils"
 
 templ CarList() {
 	<!--Cars config-->
+	<div id="carConfigure"></div>
+	<!--Configured cars-->
 	<div>
 		<ul id="carList"></ul>
 	</div>
@@ -22,41 +24,39 @@ templ CarList() {
 }
 
 templ CarConfComponent(car string, maxUpgrade int) {
-	<li class="border p-4 mb-2 rounded">
-		<form>
-			<input type="hidden" name="name" value={ car }/>
-			<h4 class="font-bold">{ car }</h4>
-			<button
-				type="button"
-				hx-delete="/removeCar"
-				hx-target="closest li"
-				hx-swap="outerHTML"
-				class="text-red-600 hover:text-red-800"
-			>
-				❌
-			</button>
-			<!--make dropdown where options is 0 to maxUpgrade-->
-			<div class="grid grid-cols-2 gap-3 mb-3">
-				<label class="block text-sm">speed:</label>
-				@UpgradeSelect("speed", maxUpgrade)
-				<label class="block text-sm">accel:</label>
-				@UpgradeSelect("accel", maxUpgrade)
-				<label class="block text-sm">handling:</label>
-				@UpgradeSelect("handling", maxUpgrade)
-				<label class="block text-sm">nitro:</label>
-				@UpgradeSelect("nitro", maxUpgrade)
-			</div>
-			<button
-				type="submit"
-				hx-post="/saveCar"
-				hx-target="#carList"
-				hx-swap="beforeend"
-				class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-			>
-				Save Car
-			</button>
-		</form>
-	</li>
+	<form>
+		<input type="hidden" name="name" value={ car }/>
+		<h4 class="font-bold">{ car }</h4>
+		<button
+			type="button"
+			hx-delete="/removeCar"
+			hx-target="closest form"
+			hx-swap="outerHTML"
+			class="text-red-600 hover:text-red-800"
+		>
+			❌
+		</button>
+		<!--make dropdown where options is 0 to maxUpgrade-->
+		<div class="grid grid-cols-2 gap-3 mb-3">
+			<label class="block text-sm">speed:</label>
+			@UpgradeSelect("speed", maxUpgrade)
+			<label class="block text-sm">accel:</label>
+			@UpgradeSelect("accel", maxUpgrade)
+			<label class="block text-sm">handling:</label>
+			@UpgradeSelect("handling", maxUpgrade)
+			<label class="block text-sm">nitro:</label>
+			@UpgradeSelect("nitro", maxUpgrade)
+		</div>
+		<button
+			type="submit"
+			hx-post="/saveCar"
+			hx-target="#carList"
+			hx-swap="beforeend"
+			class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+		>
+			Save Car
+		</button>
+	</form>
 }
 
 templ CarSavedComp(car data.CarConfSimple) {

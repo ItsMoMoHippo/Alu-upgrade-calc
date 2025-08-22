@@ -18,7 +18,7 @@ templ Form(suggestions []string) {
 			/>
 			<!--suggestions-->
 			<datalist id="carSuggestions" class="border border-gray-200 rounded-lg"></datalist>
-			<button type="button" hx-post="/addCar" hx-include="#carInput" hx-target="#carList" hx-swap="beforeend">
+			<button type="submit" hx-post="/addCar" hx-include="#carInput" hx-target="#carConfigure" hx-swap="beforeend">
 				Add Car
 			</button>
 		</form>
